@@ -1,7 +1,7 @@
 {
   "name": "react-native-touch-outside",
   "description": "Utility library to handle outside touches in React Native",
-  "version": "1.0.0",
+  "version": "0.0.2",
   "main": "lib/commonjs/index.js",
   "license": "MIT",
   "react-native": "src/index.ts",
@@ -16,7 +16,7 @@
     "prepare": "bob build"
   },
   "files": [
-    "src",
+    "!./src",
     "lib",
     "!**/__tests__",
     "!**/__fixtures__",
