@@ -16,7 +16,7 @@
     "prepare": "bob build"
   },
   "files": [
-    "!./src",
+    "src",
     "lib",
     "!**/__tests__",
     "!**/__fixtures__",
