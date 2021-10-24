@@ -4,13 +4,21 @@ Utility library to handle outside touches in React Native
 
 ## Installation
 
-`yarn add react-native-touch-outside`
+Installing touch-outside only takes a single command and you're ready to roll:
+
+```
+# with npm
+npm install --save react-native-touch-outside
+
+# with yarn
+yarn add react-native-touch-outside
+```
 
 ## Usage
 
-Wrap the TouchAreaProvider on the root of your app.
+Wrap the `TouchAreaProvider` on the root of your app.
 
-### Root component
+### TouchAreaProvider
 
 ```jsx
 <TouchAreaProvider>
@@ -18,34 +26,52 @@ Wrap the TouchAreaProvider on the root of your app.
 </TouchAreaProvider>
 ```
 
-### Child component
+### touchOutside
+
+A wrapper around any `View`-based component that registers the component for `touchOutside` events.
 
 ```jsx
-export const ExampleComponent = () => {
-  const [nativeTag, setNativeTag] = useState();
-  const { addListener, removeListener } = useTouchOutside();
+import { touchOutside } from "react-native-touch-outside";
 
-  function onPressOutside(id: string) {
+const TouchOutsideView = touchOutside(View);
+
+export const ExampleComponent = () => {
+  function handleTouchOutside(id: string) {
     console.log("Pressed outside!");
   }
 
-  function handleLayout(e: LayoutChangeEvent) {
-    setNativeTag(e.target._nativeTag);
+  return <TouchOutsideView onTouchOutside={handleTouchOutside} />;
+};
+```
 
-    // Register a callback to this native tag.
-    addListener(e.target._nativeTag, onPressOutside);
+### TouchOutsideView
+
+A convenience `View` component that registers the component for `touchOutside` events.
+
+```jsx
+import { TouchOutsideView } from "react-native-touch-outside";
+
+export const ExampleComponent = () => {
+  function handleTouchOutside(id: string) {
+    console.log("Pressed outside!");
   }
 
-  return (
-    <Pressable
-      // Use onLayout to get the native tag
-      onLayout={handleLayout}
-      onPress={handlePress}
-      style={{
-        width: 100,
-        height: 100,
-      }}
-    />
-  );
+  return <TouchOutsideView onTouchOutside={handleTouchOutside} />;
+};
+```
+
+### TouchOutsidePressable
+
+A convenience `Pressable` component that registers the component for `touchOutside` events.
+
+```jsx
+import { TouchOutsidePressable } from "react-native-touch-outside";
+
+export const ExampleComponent = () => {
+  function handleTouchOutside(id: string) {
+    console.log("Pressed outside!");
+  }
+
+  return <TouchOutsidePressable onTouchOutside={handleTouchOutside} />;
 };
 ```
