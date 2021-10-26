@@ -9,6 +9,7 @@ import {
 } from "react-native";
 
 import { useTouchOutside } from "../../hooks/use-touch-outside.hook";
+import { getTargetChildren } from "../../utils/get-target-children";
 import { TouchOutsideProps } from "./touch-outside.props";
 
 export function touchOutside<P = {}>(
@@ -19,11 +20,12 @@ export function touchOutside<P = {}>(
     ...props
   }: P & Pick<ViewProps, "onLayout"> & TouchOutsideProps) => {
     const [nativeTag, setNativeTag] = useState<string>();
+    const [childrenTags, setChildrenTags] = useState<string[]>();
     const { addListener, removeListener } = useTouchOutside();
 
     useEffect(() => {
-      if (nativeTag) {
-        addListener(nativeTag, onTouchOutside);
+      if (nativeTag && childrenTags) {
+        addListener(nativeTag, childrenTags, onTouchOutside);
       }
 
       return () => {
@@ -31,12 +33,13 @@ export function touchOutside<P = {}>(
           removeListener(nativeTag);
         }
       };
-    }, [nativeTag]);
+    }, [nativeTag, childrenTags]);
 
     function handleLayout(event: LayoutChangeEvent): void {
       const nativeTag = path<string>(["target", "_nativeTag"], event);
 
       setNativeTag(nativeTag);
+      setChildrenTags(getTargetChildren(event.target));
 
       if (props.onLayout) {
         props.onLayout(event);

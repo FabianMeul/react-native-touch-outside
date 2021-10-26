@@ -10,14 +10,18 @@ import { TouchOutsideContext } from "../../context/touch-outside.context";
 export const TouchAreaProvider: React.FC = ({ children }) => {
   const [handlers, setHandlers] = useState<TouchOutsideHandler[]>([]);
 
-  function addHandler(id: string, callback: TouchOutsideCallback): void {
+  function addHandler(
+    id: string,
+    childrenTags: string[],
+    callback: TouchOutsideCallback
+  ): void {
     setHandlers((prevState) => {
       const existingHandlerIndex = prevState.findIndex(
         (handler) => handler.id === id
       );
 
       if (existingHandlerIndex === -1) {
-        return [...prevState, { id, callback }];
+        return [...prevState, { id, childrenTags, callback }];
       }
 
       return prevState;
@@ -34,7 +38,7 @@ export const TouchAreaProvider: React.FC = ({ children }) => {
     event.persist();
 
     for (const handler of handlers) {
-      if (event.nativeEvent.target !== handler.id) {
+      if (!handler.childrenTags.includes(event.nativeEvent.target)) {
         if (handler.callback) {
           handler.callback(handler.id);
         } else {
