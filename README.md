@@ -1,6 +1,7 @@
 # React Native Touch Outside
 
-Utility library to handle outside touches in React Native
+Utility library to handle outside touches in React Native.
+It provides components that trigger a callback when a touch-event is registered outside of themselves or their children.
 
 ## Installation
 
@@ -16,7 +17,10 @@ yarn add react-native-touch-outside
 
 ## Usage
 
-Wrap the `TouchAreaProvider` on the root of your app.
+1. Wrap the `TouchAreaProvider` on the root of your app.
+2. Use `TouchOutsideView`, `TouchOutsidePressable` or wrap your own `View`-based component using `touchOutside()` and pass along the `onTouchOutside`-prop.
+
+## API
 
 ### TouchAreaProvider
 
